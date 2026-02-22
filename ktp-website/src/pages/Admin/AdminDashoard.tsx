@@ -60,7 +60,7 @@ function getUserByName(name: string): User[] {
     if (splittedName.length > 1){
         let firstName = splittedName[0].toLowerCase()
         let lastName = splittedName[1].toLowerCase()
-        
+
         return (userData ?? []).filter(user =>
         user.FirstName?.toLowerCase().includes(firstName)
         &&
@@ -69,7 +69,7 @@ function getUserByName(name: string): User[] {
     }
 
     return (userData ?? []).filter(user =>
-     user.FirstName?.toLowerCase().includes(lowerName) 
+     user.FirstName?.toLowerCase().includes(lowerName)
         ||
         user.LastName?.toLowerCase().includes(lowerName)
     );
@@ -91,7 +91,7 @@ function getUserByName(name: string): User[] {
                             onClick = {() =>{
                                 setModalOpen(true)
                                 console.log(user)
-                                setUserClicked(user); 
+                                setUserClicked(user);
                             }}
                             key={idx}
                             className={`hover:bg-gray-300 cursor-pointer text-center flex flex-row w-full md:w-[50rem] justify-between items-center h-auto md:h-[75px] px-2 py-2 md:py-0 transition-all duration-300 ${sideMenuToggled ? 'md:pl-[200px]' : 'pl-0'}`}>
@@ -128,7 +128,7 @@ function handleInputSubmit(e: React.FormEvent<HTMLFormElement>){
     }
 }
 
-//Modal attributes: 
+//Modal attributes:
 const customStyles = {
   content: {
     top: '50%',
@@ -141,7 +141,7 @@ const customStyles = {
 };
 const [modalOpen, setModalOpen] = useState(false)
 const [userClicked, setUserClicked] = useState<User | null>(null)
-const [editMode, seteditMode] = useState(false) 
+const [editMode, seteditMode] = useState(false)
 
 
 
@@ -150,11 +150,11 @@ const [editMode, seteditMode] = useState(false)
         <div className="p-4 md:p-8 max-w-auto mx-auto bg-[rgb(248,247,252)] min-h-screen" id="SideMenuContainer">
 
             <SideMenu/>
- 
+
 
                   <main className="flex pt-8 md:pt-[50px] gap-4 flex-col-reverse md:flex-row items-center md:items-start justify-center max-w-[100vw] bg-transparent">
 
-                
+
                         {queryResults.length > 0 ? allBrothers(queryResults) : allBrothers(userData ?? [])}
 
 
@@ -174,7 +174,7 @@ const [editMode, seteditMode] = useState(false)
                     </div>
 
 
-                    <Modal 
+                    <Modal
 
                     style = {{
                         overlay:{
@@ -204,28 +204,11 @@ const [editMode, seteditMode] = useState(false)
                     contentLabel = "ViewEditMember Modal"
 
                     >
-                        <div style = {{
-                            width:"auto",
-                            height: "auto",
-                            alignContent:"center",
-                            padding: "100px 0px 0px 100px",
-                            justifyContent:"center",
-                            alignItems:"center"
-                        }}>
+                        <div className="w-auto h-auto content-center pt-[100px] pl-[100px] justify-center items-center">
 
-                            <div style = {{
-                                display:"flex",
-                                flexDirection:"row",
-                                gap: 100
-                            }}>
+                            <div className="flex flex-row gap-[100px]">
                          <img src={userClicked?.WebsitePhotoURL ?? fallbackImage} className="h-10 md:h-[400px] aspect-auto rounded-sm" />
-                         <div id = "detailsColumn" style = {{
-                            alignItems:"flex-start",
-                            flexDirection:"column",
-                            display:"flex",
-                            justifyContent:"flex-start",
-
-                         }}>
+                         <div id = "detailsColumn" className="flex flex-col items-start justify-start">
                             {
                                 !editMode?
                             <>
@@ -265,37 +248,14 @@ const [editMode, seteditMode] = useState(false)
 
                     <div
                     id = "Controls"
-                    style = {{
-                        width: "auto",
-
-                        display:"flex",
-                        alignSelf:"flex-end",
-                        position:"absolute",
-                        bottom: 50,
-                        right: 50,
-                        flexDirection:"row",
-                        gap: 20
-                    }}
+                    className="w-auto flex self-end absolute bottom-[50px] right-[50px] flex-row gap-5"
                     >
 
                         {
                         !editMode?
-                           <>  
+                           <>
                         <button
-                        style = {{
-                         backgroundColor:"#004C96",
-                            border: `solid 1px #004C96`,
-                         borderRadius: 4, 
-                             alignContent:"center",
-                        display:"flex",
-                        cursor:"pointer",
-                        transitionDuration:"1s",
-                        color:"white",
-                        paddingInline: 24,
-                        paddingBlock: 2,
-                        fontSize: 20,
-                
-                            }}
+                        className="bg-[#004C96] border border-[#004C96] rounded content-center flex cursor-pointer duration-1000 text-white px-6 py-0.5 text-xl"
                             onClick={ () => seteditMode(true)}
                         >
 
@@ -305,20 +265,7 @@ const [editMode, seteditMode] = useState(false)
 
 
                            <button
-                        style = {{
-                         backgroundColor:"#004C96",
-                            border: `solid 1px #004C96`,
-                         borderRadius: 4, 
-                             alignContent:"center",
-                        display:"flex",
-                        cursor:"pointer",
-                        transitionDuration:"1s",
-                        color:"white",
-                        paddingInline: 24,
-                        paddingBlock: 2,
-                        fontSize: 20
-
-                            }}
+                        className="bg-[#004C96] border border-[#004C96] rounded content-center flex cursor-pointer duration-1000 text-white px-6 py-0.5 text-xl"
                             onClick={ () => setModalOpen(false)}
                         >
 
@@ -330,20 +277,7 @@ const [editMode, seteditMode] = useState(false)
 
                         <>
                           <button
-                        style = {{
-                         backgroundColor:"#004C96",
-                            border: `solid 1px #004C96`,
-                         borderRadius: 4, 
-                             alignContent:"center",
-                        display:"flex",
-                        cursor:"pointer",
-
-                        color:"white",
-                        paddingInline: 24,
-                        paddingBlock: 2,
-                        fontSize: 20
-
-                            }}
+                        className="bg-[#004C96] border border-[#004C96] rounded content-center flex cursor-pointer text-white px-6 py-0.5 text-xl"
                             onClick={ () => seteditMode(false)}
                         >
 
@@ -352,20 +286,7 @@ const [editMode, seteditMode] = useState(false)
                         </button>
 
                           <button
-                        style = {{
-                         backgroundColor:"transparent",
-                            border: `solid 1px #004C96`,
-                         borderRadius: 4, 
-                             alignContent:"center",
-                        display:"flex",
-                        cursor:"pointer",
-
-                        color:"#004C96",
-                        paddingInline: 24,
-                        paddingBlock: 2,
-                        fontSize: 20
-
-                            }}
+                        className="bg-transparent border border-[#004C96] rounded content-center flex cursor-pointer text-[#004C96] px-6 py-0.5 text-xl"
                             onClick={ () => setModalOpen(false)}
                         >
 
@@ -373,9 +294,9 @@ const [editMode, seteditMode] = useState(false)
 
                         </button>
                         </>
-                        
+
                         }
-                    
+
 
                         </div>
 

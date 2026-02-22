@@ -41,9 +41,9 @@ export default function BatchAddMembers(){
 const [newMembers, setNewMembers] = useState([] as User[]);
 const [edittingUser, setEdittingUser] = useState(false)
 const [editingIndex, setEditingIndex] = useState<number | null>(null)
-const [newUserInFocus, setNewUserInFocus] = useState({} as User) //the current user object which is being created (ie new User's object) 
+const [newUserInFocus, setNewUserInFocus] = useState({} as User) //the current user object which is being created (ie new User's object)
 //modal vars
-const [modalOpen, setModalOpen] = useState(false); 
+const [modalOpen, setModalOpen] = useState(false);
 
 const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -52,11 +52,11 @@ const backendUrl = import.meta.env.VITE_LOCAL_BACKEND_URL;
 
 function deleteNewMemmber(idx : number){
     let leftHemi = newMembers.slice(0, idx)
-    let rightHemi = newMembers.slice(idx+1, newMembers.length); 
+    let rightHemi = newMembers.slice(idx+1, newMembers.length);
 
     let newArray = leftHemi.concat(rightHemi)
 
-    setNewMembers(newArray); 
+    setNewMembers(newArray);
 
    // console.log(newArray)
 
@@ -66,37 +66,13 @@ function deleteNewMemmber(idx : number){
 const Controls = (
      <div
                     id = "Controls"
-                    style = {{
-                        width: "auto",
-                        display:"flex",
-                        alignSelf:"flex-end",
-                        position:"absolute",
-                        bottom: 50,
-                        right: 50,
-                        flexDirection:"row",
-                        gap: 20,
-
-                    }}
+                    className="w-auto flex self-end absolute bottom-[50px] right-[50px] flex-row gap-5"
                     >
 
 
 
                         <button
-                        style = {{
-                         backgroundColor:"#004C96",
-                            border: `solid 1px #004C96`,
-                         borderRadius: 4, 
-                             alignContent:"center",
-                        display:"flex",
-                        cursor: newMembers.length == 0 ? "auto" : "pointer",
-                        transitionDuration:"1s",
-                        color:"white",
-                        paddingInline: 24,
-                        paddingBlock: 2,
-                        fontSize: 20,
-                        opacity: newMembers.length == 0 ? 0.5 : 1
-                
-                            }}
+                        className={`bg-[#004C96] border border-[#004C96] rounded content-center flex duration-1000 text-white px-6 py-0.5 text-xl ${newMembers.length == 0 ? 'cursor-auto opacity-50' : 'cursor-pointer opacity-100'}`}
                             onClick={handleOnboardNewMemebers}
                         >
 
@@ -108,18 +84,7 @@ const Controls = (
 )
 const PlaceHolderItm = (
     <div
-    style = {{
-        backgroundColor:"rgba(0,0,0,.15)",
-      width: 150,
-       height: 200,
-       borderRadius: 10,
-       alignContent:"center", 
-       alignItems:"center",
-       display:"flex",
-       justifyContent:"center",
-       cursor:"pointer", 
-
-    }}
+    className="bg-black/15 w-[150px] h-[200px] rounded-[10px] content-center items-center flex justify-center cursor-pointer"
     onClick = { () =>{
         setNewUserInFocus({} as User)
         setModalOpen(true)
@@ -127,7 +92,7 @@ const PlaceHolderItm = (
     }}
     >
 
-        <ControlPointIcon style = {{color:"rgba(0,0,0,0.5)"}} />
+        <ControlPointIcon className="text-black/50" />
     </div>
 )
 
@@ -152,7 +117,7 @@ async function handleOnboardNewMemebers(){
                 await uploadBytes(fileRef, member.photoFile);
                 downloadURL = await getDownloadURL(fileRef);
                 await updateDoc(doc(firestore, 'users', id), { WebsitePhotoURL: downloadURL });
-                
+
             }
         }
         console.log('All members onboarded successfully', newMembers);
@@ -220,30 +185,21 @@ function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
 
 
     return(
-    <div style ={{flexDirection:"row", display:"flex", gap: 50, }} className="p-4 md:p-8 max-w-auto mx-auto bg-[rgb(248,247,252)] min-h-screen" id="SideMenuContainer">
+    <div className="flex flex-row gap-[50px] p-4 md:p-8 max-w-auto mx-auto bg-[rgb(248,247,252)] min-h-screen" id="SideMenuContainer">
   <SideMenu/>
-        <div style = {{paddingTop:80, display:"flex", flexDirection:"row", gap: 64}}>
+        <div className="pt-20 flex flex-row gap-16">
 
             {
 
-                newMembers.length > 0? 
+                newMembers.length > 0?
                 <>
                 {
                 newMembers.map((itm, idx) =>{
                     return(
-                        <div style = {{}}>
+                        <div>
                         <div
-                        style = {{
-                                backgroundColor:"rgba(0,0,0,.15)",
-                         width: 150,
-                        height: 200,
-                        borderRadius: 10,
-                         alignContent:"center", 
-                    alignItems:"center",
-                    display:"flex",
-                     justifyContent:"center",
-
-                        }}>
+                        className="bg-black/15 w-[150px] h-[200px] rounded-[10px] content-center items-center flex justify-center"
+                        >
 
                             <img src = {itm.WebsitePhotoURL || fallbackImage}/>
 
@@ -251,13 +207,7 @@ function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
 
                             <div
                             id = "newMembersQuickActionButtons"
-                            style = {{
-                                display:"flex",
-                                flexDirection:"column",
-                                gap: 10,
-                                paddingBlock: 10
-
-                            }}
+                            className="flex flex-col gap-2.5 py-2.5"
                             >
                                 <button onClick = {() => {
                                 setNewUserInFocus(itm);
@@ -265,8 +215,8 @@ function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
                                 setModalOpen(true)
                                 setEdittingUser(true)
 
-                                }}><EditIcon style = {{height: 20, width: 20}}/></button>
-                                <button onClick = {() => deleteNewMemmber(idx)} ><ClearIcon style = {{height: 20, width: 20}}/></button>
+                                }}><EditIcon className="h-5 w-5"/></button>
+                                <button onClick = {() => deleteNewMemmber(idx)} ><ClearIcon className="h-5 w-5"/></button>
                                 </div>
                                 </div>
                     )
@@ -282,7 +232,7 @@ function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
 
         {Controls}
 
-         <Modal 
+         <Modal
 
                     style = {{
                         overlay:{
@@ -312,43 +262,26 @@ function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
                     contentLabel = "ViewEditMember Modal"
 
                     >
-                        <div style = {{
-                            width:"auto",
-                            height: "auto",
-                            alignContent:"center",
-                            padding: "100px 0px 0px 100px",
-                            justifyContent:"center",
-                            alignItems:"center"
-                        }}>
-
-                      
+                        <div className="w-auto h-auto content-center pt-[100px] pl-[100px] justify-center items-center">
 
 
-                         <div style = {{
-                                display:"flex",
-                                flexDirection:"row",
-                                gap: 100
-                            }}>
-                            <div style = {{width: 300, height: 300, overflow: "hidden", borderRadius: 10, cursor: "pointer", position: "relative"}}>
 
-                                <img src={newUserInFocus.WebsitePhotoURL || fallbackImage} style={{width:"100%", height:"100%", objectFit:"cover", filter: newUserInFocus.WebsitePhotoURL ? "none" : "brightness(0.6)"}} />
 
-<div id = "editImageOverlay" onClick = {() => fileInputRef.current?.click()} style={{position:"absolute", top:0, left:0, width:"100%", height:"100%", display:"flex", justifyContent:"center", alignItems:"center"}}>
-    <ControlPointIcon id = "plusIcon" style={{color:"rgba(255,255,255,0.75)", fontSize: 40}} />
+                         <div className="flex flex-row gap-[100px]">
+                            <div className="w-[300px] h-[300px] overflow-hidden rounded-[10px] cursor-pointer relative">
+
+                                <img src={newUserInFocus.WebsitePhotoURL || fallbackImage} className={`w-full h-full object-cover ${newUserInFocus.WebsitePhotoURL ? '' : 'brightness-[0.6]'}`} />
+
+<div id = "editImageOverlay" onClick = {() => fileInputRef.current?.click()} className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
+    <ControlPointIcon id = "plusIcon" className="text-white/75 text-[40px]" />
 </div>
 
-<input type="file" accept="image/*" ref={fileInputRef} style={{display: 'none'}} onChange={handleFileChange} />
+<input type="file" accept="image/*" ref={fileInputRef} className="hidden" onChange={handleFileChange} />
 
                             </div>
 
-                         <div id = "detailsColumn" style = {{
-                            alignItems:"flex-start",
-                            flexDirection:"column",
-                            display:"flex",
-                            justifyContent:"flex-start",
+                         <div id = "detailsColumn" className="flex flex-col items-start justify-start">
 
-                         }}>
-                          
                             <p>Clout: <input type="number" placeholder={'Initial Clout'} value = {newUserInFocus.Clout} onChange={handleFieldInputs}/></p>
                             <p>Position: <input type="text" placeholder={"Position"} onChange={handleFieldInputs} /></p>
                             <p >First Name: <input type="text" placeholder={"First Name"}  onChange={handleFieldInputs} /> </p>
@@ -367,35 +300,12 @@ function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
 
                     <div
                     id = "Controls"
-                    style = {{
-                        width: "auto",
-
-                        display:"flex",
-                        alignSelf:"flex-end",
-                        position:"absolute",
-                        bottom: 50,
-                        right: 50,
-                        flexDirection:"row",
-                        gap: 20
-                    }}
+                    className="w-auto flex self-end absolute bottom-[50px] right-[50px] flex-row gap-5"
                     >
 
-            
+
                           <button
-                        style = {{
-                         backgroundColor:"#004C96",
-                            border: `solid 1px #004C96`,
-                         borderRadius: 4, 
-                             alignContent:"center",
-                        display:"flex",
-                        cursor:"pointer",
-
-                        color:"white",
-                        paddingInline: 24,
-                        paddingBlock: 2,
-                        fontSize: 20
-
-                            }}
+                        className="bg-[#004C96] border border-[#004C96] rounded content-center flex cursor-pointer text-white px-6 py-0.5 text-xl"
                             onClick={async () => {
 
                               if (edittingUser && editingIndex !== null) {
@@ -421,7 +331,17 @@ function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
                             Save
 
                         </button>
-                    
+
+       <button
+                        className="bg-[transparent] border border-[#004C96] rounded content-center flex cursor-pointer text-[#004C96] px-6 py-0.5 text-xl"
+                            onClick={async () => {
+                                setModalOpen(false)
+                            }}
+                        >
+
+                            Cancel
+
+                        </button>
 
                         </div>
 
