@@ -54,6 +54,39 @@ export default function usersRoute(db) {
     }
   });
 
+  /*
+    // Get a User by Name
+  router.get('/name/:name', async (request, response) => {
+    try {
+      const { Name } = request.params;
+      let splittedName = Name.split(" ")
+      let firstName = splittedName[0]
+      let lastName = splittedName[1]
+
+      const usersCollection = collection(db, 'users');
+      const q = query(usersCollection, where('FirstName', '==', firstName));
+      
+      const querySnapshot = await getDocs(q);
+      const userList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+      //resort to querying by lats name in case the no member found 
+      if (userList.length == 0){ 
+        const _q = query(usersCollection, where('LastName', '==', lastName));
+      const _querySnapshot = await getDocs(_q);
+      const _userList = _querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+          return response.status(200).json(_userList);
+      }
+
+      return response.status(200).json(userList);
+    } catch (error) {
+      console.log(error.message);
+      response.status(500).send({ message: error.message });
+    }
+  });
+  */
+  
+
   // Add a User
   router.post('/', async (request, response) => {
     try {
