@@ -38,6 +38,7 @@
         "react-loading-dot": "^1.0.6",
         "react-loading-skeleton": "^3.5.0",
         "react-markdown": "^9.0.1",
+        "react-modal": "^3.16.3",
         "react-router-dom": "^7.1.1",
         "react-select": "^5.9.0",
         "three": "^0.172.0",

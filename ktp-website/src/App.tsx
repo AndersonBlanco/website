@@ -7,7 +7,7 @@ import Brothers from "./pages/Brothers";
 import Rush from "./pages/Rush";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin/Admin";
-import AdminLogin from "./pages/Admin/AdminLogin";
+import AdminLogin from "./pages/Admin/legacy/AdminLogin";
 import Error from "./pages/Error";
 
 import Header from "./components/Header";
@@ -16,12 +16,13 @@ import Footer from "./components/Footer";
 // import ChatbotProvider from "./contexts/ChatbotContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
-const backendUrl = import.meta.env.VITE_BACKEND_URL; //change back to VITE_BACKEND_URL for production 
+const backendUrl = import.meta.env.VITE_LOCAL_BACKEND_URL; //change back to VITE_BACKEND_URL for production 
 import { DataBaseDataContext } from "./contexts/DataBaseDataContext";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import BackToTop from "./components/ScrollTop";
 import AdminDashboard from "./pages/Admin/AdminDashoard";
+import BatchAddMembers from "./pages/Admin/BatchAddMembers";
 // import { SnackbarProvider } from "notistack";
 
 function App() {
@@ -37,7 +38,10 @@ function App() {
                     `${backendUrl}/websitePics`
                 );
 
+
                 setUserData(userResponse.data.data);
+                       console.log(userData) //debug log
+
                 setPictureData(pictureResponse.data.data);
             } catch (error) {
                 console.error("Error fetching data in App:", error);
@@ -76,10 +80,13 @@ function App() {
                             <Route path="/rush" element={<Rush />} />
                             <Route path="/contact" element={<Contact />} />
 
-                            {/*Admin page route : START */}
+                            {/*Admin pages route : START */}
                             <Route path="/admin" element={<Admin />} />
                             <Route path="/adminDashboard" element={<AdminDashboard />} />
-                            {/*Admin page route : END */}
+                            <Route path="/adminBatchAddMembers" element={<BatchAddMembers />} />
+                            {/*Admin pages route : END */}
+
+
                             <Route path="*" element={<Error />} />
 
                         </Routes>

@@ -18,6 +18,7 @@ ul{
 ul li p:active{
     opacity: 0.5;
 }
+
 ul li:nth-child(n+2){
     background-color: transparent; 
     border-top: 1px solid rgb(198, 198, 198);
@@ -37,4 +38,31 @@ ul .logout{
 
 .brothersListContainer .brotherEntry{
 
+}
+
+
+
+button:active{
+    opacity: 0.5;
+}
+
+#detailsColumn p{
+    gap: 10px; 
+    display: flex;
+    flex-direction: row;
+
+}
+
+
+#newMembersQuickActionButtons button{
+    background-color: rgb(226, 226, 226); 
+    border-radius: 5px;
+    padding: 5px 1px;
+    cursor: pointer;
+    color: rgb(119, 119, 119);
+
+}
+
+#plusIcon :active{
+    opacity: 0.25;
 }
