@@ -3,7 +3,7 @@ import president from '../img/PresidentWelcome.jpg';
 const PresidentialWelcome = () => {
   return (
     <section className="py-12 px-4 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row items-stretch gap-8">
+      <div className="flex flex-col md:flex-row items-center gap-8">
         {/* Image on the left */}
         <img
           src={president}
