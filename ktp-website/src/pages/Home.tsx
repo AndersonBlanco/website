@@ -20,7 +20,8 @@ import download from "../img/App/download.jpeg";
 import downloadonappstore from "../img/App/Download on App Store.png";
 const images = [events, people, alerts, profile, download]
 
-/*President Welcome IMAGES*/
+/* President Welcome */
+import PresidentialWelcome from '../components/PresidentialWelcome';
 
 /* Network IMAGES */
 import network from "../img/Network/Network.png";
@@ -100,8 +101,10 @@ function Home() {
           </div>
         </div>
       </div>
-      
-      
+
+      {/* Presidential Welcome Section */}
+      <PresidentialWelcome />
+
       {/* NETWORK SECTION */}
       <section className="py-12 px-4 text-center">
         <h2 className="text-3xl sm:text-4xl font-black mb-6 text-ktp-appblue">Our Network</h2>
