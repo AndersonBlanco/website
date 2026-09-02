@@ -1,11 +1,19 @@
 import { useContext, useState } from "react";
-import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
+import { DataBaseDataContext } from "../../../contexts/DataBaseDataContext";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, doc, updateDoc } from "firebase/firestore";
 
+interface Brother {
+    id: string;
+    FirstName?: string;
+    LastName?: string;
+    Eboard_Position?: string;
+    WebsitePhotoURL?: string;
+}
+
 export default function _AdminDashboard() {
   const dataContext = useContext(DataBaseDataContext);
-  const userData = dataContext?.userData || [];
+  const userData: Brother[] = dataContext?.userData || [];
   
   // State for the file currently being uploaded
   const [uploadingId, setUploadingId] = useState<string | null>(null);
@@ -47,7 +55,7 @@ export default function _AdminDashboard() {
       <h1 className="text-3xl font-bold mb-8">Admin Dashboard: Manage Brothers</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {userData.map((brother) => (
+        {userData.map((brother: Brother) => (
           <div key={brother.id} className="border p-4 rounded shadow flex items-center space-x-4">
             
             {/* Current Image Preview */}

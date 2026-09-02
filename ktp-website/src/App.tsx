@@ -7,7 +7,6 @@ import Brothers from "./pages/Brothers";
 import Rush from "./pages/Rush";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin/Admin";
-import AdminLogin from "./pages/Admin/legacy/AdminLogin";
 import Error from "./pages/Error";
 
 import Header from "./components/Header";
