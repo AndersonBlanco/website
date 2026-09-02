@@ -52,7 +52,7 @@ export default function BatchAddMembers() {
         if (newMembers.length === 0) return;
         try {
             for (const member of newMembers) {
-                const userData = { ...member };
+                const userData: Record<string, unknown> = { ...member };
                 delete userData.photoFile;
                 delete userData.WebsitePhotoURL;
                 const docRef = await addDoc(collection(firestore, 'users'), userData);

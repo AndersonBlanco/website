@@ -1,8 +1,8 @@
-import react, {useState} from "react"
+import {useState} from "react"
 import {FcGoogle} from "react-icons/fc"
 import {auth} from "../../firebase/firebase"
-import {useNavigate, } from 'react-router-dom'
-import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth"
+import {useNavigate} from 'react-router-dom'
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { ALLOWED_ADMIN_EMAILS } from "../../constants/adminEmails";
 
 
