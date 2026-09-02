@@ -46,7 +46,7 @@ const FAQItem: React.FC<FAQItemProps> = ({
 
 function Rush() {
     const RUSH_OPEN = true; 
-    const rush_link = "http://docs.google.com/forms/d/e/1FAIpQLSe4ayYTwRyQ3LmH5aykjTkuddiXsR4Ez-8OqYm1ZodxQiuZFA/viewform"; 
+    const rush_link = "https://docs.google.com/forms/d/e/1FAIpQLSdsv71poDeJlWlSn4C7MQusIGYzJ-1TeTq8V4Cleo4PqPETSA/viewform";
 
     const lenisRef = useRef<{
         lenis?: {
@@ -171,7 +171,7 @@ function Rush() {
                     <div className="flex flex-col items-center">
                         <button className="bg-transparent text-ktp-appblue border-2 border-ktp-appblue px-6 py-2 rounded hover:bg-ktp-appblue hover:text-white transition duration-300 relative group">
                             <a
-                                href="https://forms.gle/8G1HA6TkZrZsEKH47"
+                                href="https://docs.google.com/forms/d/e/1FAIpQLScWUVa4FjlkhubptziOfG1G1NRHofXnVsMNzpmNAIXv2Nuhig/viewform?usp=header"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
