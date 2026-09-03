@@ -3,11 +3,10 @@ import { Canvas } from "@react-three/fiber";
 import Scene from "../components/Scene";
 import gsap from "gsap";
 import { ReactLenis } from "lenis/react";
-import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
 import axios from "axios";
 import { RushEvents } from "../components/Timeline";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import vpRecruitmentPhoto from "../img/vp_recruitment.jpeg";
 
 // Define the type of your Rush Event if using TypeScript
 interface RushEvent {
@@ -55,12 +54,6 @@ function Rush() {
         };
     } | null>(null);
     const [, setScrollY] = useState(0);
-    const dataContext = React.useContext(DataBaseDataContext);
-    const userData = dataContext?.userData;
-    const vpOfRecruitment = userData?.find(
-        (user: { Eboard_Position: string }) =>
-            user.Eboard_Position === "VP of Recruitment"
-    );
 
 
     const [openQuestion, setOpenQuestion] = useState(null);
@@ -233,16 +226,11 @@ function Rush() {
                 <div className="flex flex-col md:flex-row items-center justify-center my-20 px-10">
                     {/* Image Section */}
                     <div className="mb-6 md:mb-0">
-                        {vpOfRecruitment?.WebsitePhotoURL ? (
-                            // Once the image data is available, render the image
-                            <img
-                                src={`${vpOfRecruitment?.WebsitePhotoURL}`}
-                                alt={`${vpOfRecruitment?.FirstName} ${vpOfRecruitment?.LastName}`}
-                                className="rounded-md shadow-lg object-cover w-60 h-120"
-                            />
-                        ) : (
-                            <Skeleton width={240} height={350} />
-                        )}
+                        <img
+                            src={vpRecruitmentPhoto}
+                            alt="Laura - VP of Recruitment"
+                            className="rounded-md shadow-lg object-cover w-60 h-120"
+                        />
                     </div>
 
                     {/* Text Section */}
@@ -271,10 +259,9 @@ function Rush() {
                         <p className="text-base">
                             Sincerely,
                             <br />
-                            {vpOfRecruitment?.FirstName}{" "}
-                            {vpOfRecruitment?.LastName}
+                            Laura Yatavelli
                             <br />
-                            {vpOfRecruitment?.Eboard_Position}
+                            VP of Recruitment
                         </p>
                     </div>
                 </div>
