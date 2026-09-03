@@ -54,7 +54,13 @@ function Rush() {
         };
     } | null>(null);
     const [, setScrollY] = useState(0);
+    const [showUpcomingEvents, setShowUpcomingEvents] = useState(false);
 
+    useEffect(() => {
+        import("../firebase/remoteConfig").then(({ getShowUpcomingEvents }) => {
+            getShowUpcomingEvents().then(setShowUpcomingEvents);
+        });
+    }, []);
 
     const [openQuestion, setOpenQuestion] = useState(null);
     const faqs = [
@@ -267,6 +273,7 @@ function Rush() {
                 </div>
 
                 {/* 4) Rush Events Timeline Section (Bottom of Page) */}
+                {showUpcomingEvents && (
                 <div className="px-4 py-10">
                     <h2 className="text-center text-2xl sm:text-4xl font-black text-ktp-appblue mb-10">
                         Upcoming Rush Events
@@ -274,6 +281,7 @@ function Rush() {
                     {/* Pass your "events" state directly to RushEvents */}
                     <RushEvents events={events} />
                 </div>
+                )}
 
                 <div className="mt-16 mb-16 relative z-10">
                     <h2 className="text-center text-2xl sm:text-4xl font-black text-ktp-appblue mb-10">
@@ -291,7 +299,7 @@ function Rush() {
                         ))}
                     </div>
                     <h2 className="mx-10 text-center text-xl sm:text-2xl font-bold text-ktp-appblue my-10">
-                        Have more questions? Ask our new chatbot, KTPaul!
+                        Have more questions? Reach out to us on the Contact page!
                     </h2>
                 </div>
             </div>
