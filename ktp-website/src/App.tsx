@@ -11,8 +11,6 @@ import Error from "./pages/Error";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-// import ChatWidget from "./components/ChatWidget";
-// import ChatbotProvider from "./contexts/ChatbotContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -23,7 +21,6 @@ import BackToTop from "./components/ScrollTop";
 import AdminDashboard from "./pages/Admin/AdminDashoard";
 import BatchAddMembers from "./pages/Admin/BatchAddMembers";
 import AdminRoute from "./components/Admin/AdminRoute";
-// import { SnackbarProvider } from "notistack";
 
 function App() {
     //DB access for entire app
@@ -94,12 +91,7 @@ function App() {
                 </DataBaseDataContext.Provider>
             </main>
 
-            {/* Chatbot */}
-            {/* <SnackbarProvider>
-                <ChatbotProvider>
-                    <ChatWidget />
-                </ChatbotProvider>
-            </SnackbarProvider> */}
+
             {/* Footer at the bottom */
             !location.pathname.includes("admin") &&  <Footer /> 
             }
