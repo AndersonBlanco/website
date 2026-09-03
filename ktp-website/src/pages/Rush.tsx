@@ -3,11 +3,10 @@ import { Canvas } from "@react-three/fiber";
 import Scene from "../components/Scene";
 import gsap from "gsap";
 import { ReactLenis } from "lenis/react";
-import { DataBaseDataContext } from "../contexts/DataBaseDataContext";
 import axios from "axios";
 import { RushEvents } from "../components/Timeline";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import vpRecruitmentPhoto from "../img/vp_recruitment.jpeg";
 
 // Define the type of your Rush Event if using TypeScript
 interface RushEvent {
@@ -55,13 +54,13 @@ function Rush() {
         };
     } | null>(null);
     const [, setScrollY] = useState(0);
-    const dataContext = React.useContext(DataBaseDataContext);
-    const userData = dataContext?.userData;
-    const vpOfRecruitment = userData?.find(
-        (user: { Eboard_Position: string }) =>
-            user.Eboard_Position === "VP of Recruitment"
-    );
+    const [showUpcomingEvents, setShowUpcomingEvents] = useState(false);
 
+    useEffect(() => {
+        import("../firebase/remoteConfig").then(({ getShowUpcomingEvents }) => {
+            getShowUpcomingEvents().then(setShowUpcomingEvents);
+        });
+    }, []);
 
     const [openQuestion, setOpenQuestion] = useState(null);
     const faqs = [
@@ -233,16 +232,11 @@ function Rush() {
                 <div className="flex flex-col md:flex-row items-center justify-center my-20 px-10">
                     {/* Image Section */}
                     <div className="mb-6 md:mb-0">
-                        {vpOfRecruitment?.WebsitePhotoURL ? (
-                            // Once the image data is available, render the image
-                            <img
-                                src={`${vpOfRecruitment?.WebsitePhotoURL}`}
-                                alt={`${vpOfRecruitment?.FirstName} ${vpOfRecruitment?.LastName}`}
-                                className="rounded-md shadow-lg object-cover w-60 h-120"
-                            />
-                        ) : (
-                            <Skeleton width={240} height={350} />
-                        )}
+                        <img
+                            src={vpRecruitmentPhoto}
+                            alt="Laura - VP of Recruitment"
+                            className="rounded-md shadow-lg object-cover w-60 h-120"
+                        />
                     </div>
 
                     {/* Text Section */}
@@ -271,15 +265,15 @@ function Rush() {
                         <p className="text-base">
                             Sincerely,
                             <br />
-                            {vpOfRecruitment?.FirstName}{" "}
-                            {vpOfRecruitment?.LastName}
+                            Laura Yatavelli
                             <br />
-                            {vpOfRecruitment?.Eboard_Position}
+                            VP of Recruitment
                         </p>
                     </div>
                 </div>
 
                 {/* 4) Rush Events Timeline Section (Bottom of Page) */}
+                {showUpcomingEvents && (
                 <div className="px-4 py-10">
                     <h2 className="text-center text-2xl sm:text-4xl font-black text-ktp-appblue mb-10">
                         Upcoming Rush Events
@@ -287,6 +281,7 @@ function Rush() {
                     {/* Pass your "events" state directly to RushEvents */}
                     <RushEvents events={events} />
                 </div>
+                )}
 
                 <div className="mt-16 mb-16 relative z-10">
                     <h2 className="text-center text-2xl sm:text-4xl font-black text-ktp-appblue mb-10">
@@ -304,7 +299,7 @@ function Rush() {
                         ))}
                     </div>
                     <h2 className="mx-10 text-center text-xl sm:text-2xl font-bold text-ktp-appblue my-10">
-                        Have more questions? Ask our new chatbot, KTPaul!
+                        Have more questions? Reach out to us on the Contact page!
                     </h2>
                 </div>
             </div>
