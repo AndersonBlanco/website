@@ -6,24 +6,23 @@ import About from "./pages/About";
 import Brothers from "./pages/Brothers";
 import Rush from "./pages/Rush";
 import Contact from "./pages/Contact";
-import Admin from "./pages/Admin/Admin";
 import Error from "./pages/Error";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-// import ChatWidget from "./components/ChatWidget";
-// import ChatbotProvider from "./contexts/ChatbotContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 import { DataBaseDataContext } from "./contexts/DataBaseDataContext";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import BackToTop from "./components/ScrollTop";
-import AdminDashboard from "./pages/Admin/AdminDashoard";
-import BatchAddMembers from "./pages/Admin/BatchAddMembers";
-import AdminRoute from "./components/Admin/AdminRoute";
-// import { SnackbarProvider } from "notistack";
+
+// Lazy-load admin pages so Firebase only initialises when needed
+const Admin = lazy(() => import("./pages/Admin/Admin"));
+const AdminDashboard = lazy(() => import("./pages/Admin/AdminDashoard"));
+const BatchAddMembers = lazy(() => import("./pages/Admin/BatchAddMembers"));
+const AdminRoute = lazy(() => import("./components/Admin/AdminRoute"));
 
 function App() {
     //DB access for entire app
@@ -40,7 +39,6 @@ function App() {
 
 
                 setUserData(userResponse.data.data);
-                       console.log(userData) //debug log
 
                 setPictureData(pictureResponse.data.data);
             } catch (error) {
@@ -57,16 +55,6 @@ function App() {
             !location.pathname.includes("admin") && <Header/>
             }
 
-            {/* Google analytics, ask KIEFER */}
-            {/* <script
-                async
-                src="https://www.googletagmanager.com/gtag/js?id=G-PDTMQKQPZ0"
-            ></script>
-            <script>
-                (window as any).dataLayer = (window as any).dataLayer || [];
-                function gtag(){(window as any).dataLayer.push(arguments)}
-                gtag('js', new Date()); gtag('config', 'G-PDTMQKQPZ0');
-            </script> */}
             {/* Main content area (grow to fill) */}
             <main className="flex-grow">
                 {/* Wrap Routes with DataBaseDataContext.Provider */}
@@ -81,9 +69,9 @@ function App() {
                             <Route path="/contact" element={<Contact />} />
 
                             {/*Admin pages route : START */}
-                            <Route path="/admin" element={<Admin />} />
-                            <Route path="/adminDashboard" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-                            <Route path="/adminBatchAddMembers" element={<AdminRoute><BatchAddMembers /></AdminRoute>} />
+                            <Route path="/admin" element={<Suspense><Admin /></Suspense>} />
+                            <Route path="/adminDashboard" element={<Suspense><AdminRoute><AdminDashboard /></AdminRoute></Suspense>} />
+                            <Route path="/adminBatchAddMembers" element={<Suspense><AdminRoute><BatchAddMembers /></AdminRoute></Suspense>} />
                             {/*Admin pages route : END */}
 
 
@@ -94,12 +82,6 @@ function App() {
                 </DataBaseDataContext.Provider>
             </main>
 
-            {/* Chatbot */}
-            {/* <SnackbarProvider>
-                <ChatbotProvider>
-                    <ChatWidget />
-                </ChatbotProvider>
-            </SnackbarProvider> */}
             {/* Footer at the bottom */
             !location.pathname.includes("admin") &&  <Footer /> 
             }
