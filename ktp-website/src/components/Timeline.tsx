@@ -123,43 +123,41 @@ export function RushEvents({ events }: { events: RushEvent[] }) {
           <TimelineContent sx={{ py: 2 }}>
             {/* Wrap our card in the FadeInSection */}
             <FadeInSection>
-              <Paper elevation={3} sx={{ p: 2, display: 'inline-block', maxWidth: '400px' }}>
+              <Paper elevation={3} sx={{ p: 3, display: 'inline-block', maxWidth: '460px', width: '100%' }}>
                 {/* Event Name */}
-                <Box display="flex" justifyContent="center" alignItems="center" mb={0}>
-                  <Typography
-                    variant="h6"
-                    component="h1"
-                    gutterBottom
-                    sx={{ textAlign: 'center', fontWeight: 'bold' }}
-                  >
-                    {event.Name}
+                <Typography
+                  variant="h6"
+                  component="h1"
+                  gutterBottom
+                  sx={{ textAlign: 'center', fontWeight: 'bold', mb: 1.5 }}
+                >
+                  {event.Name}
+                </Typography>
+
+                {/* Date & Time */}
+                <Box display="flex" alignItems="center" gap={1} mb={1}>
+                  <AccessTimeIcon fontSize="small" sx={{ flexShrink: 0 }} />
+                  <Typography variant="body2">
+                    {formatEventDate(event.Day, event.EndDay)}, {formatEventTime(event.Day, event.Time)}
                   </Typography>
                 </Box>
 
-                {/* Day & Time */}
-                <Box display="flex" alignItems="center" gap={3} mb={1}>
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <AccessTimeIcon fontSize="small" />
-                    <Typography variant="body2" sx={{ textAlign: 'left' }}>
-                      {formatEventDate(event.Day, event.EndDay)}, {formatEventTime(event.Day, event.Time)}
-                    </Typography>
-                  </Box>
-
-                  {/* Location */}
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <PlaceIcon fontSize="small" />
-                    <Typography variant="body2" sx={{ textAlign: 'left' }}>
+                {/* Location — only render if present */}
+                {event.Location && (
+                  <Box display="flex" alignItems="center" gap={1} mb={1}>
+                    <PlaceIcon fontSize="small" sx={{ flexShrink: 0 }} />
+                    <Typography variant="body2">
                       {event.Location}
                     </Typography>
                   </Box>
-                </Box>
+                )}
 
                 {/* Description */}
-                <Box display="flex" justifyContent="left" gap={0}>
-                  <Typography variant="body2" sx={{ textAlign: 'left' }}>
+                {event.Description && (
+                  <Typography variant="body2" sx={{ mt: 1 }}>
                     {event.Description}
                   </Typography>
-                </Box>
+                )}
               </Paper>
             </FadeInSection>
           </TimelineContent>
