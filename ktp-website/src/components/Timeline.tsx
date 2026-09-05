@@ -9,9 +9,43 @@ interface RushEvent {
   _id?: string;
   Name: string;
   Day: string;
+  EndDay?: string;
   Time: string;
   Location: string;
   Description: string;
+}
+
+/**
+ * Parse a date string (e.g. "2025-09-13") as a local date,
+ * avoiding timezone shift issues from UTC parsing.
+ */
+function parseLocalDate(dateStr: string): Date {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
+}
+
+const dateFormatOptions: Intl.DateTimeFormatOptions = {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+};
+
+/**
+ * Format the display date for an event.
+ * Single-day: "Saturday, September 13"
+ * Multi-day:  "Saturday, September 13 – Sunday, September 14"
+ */
+function formatEventDate(day: string, endDay?: string): string {
+  const start = parseLocalDate(day);
+  const startStr = start.toLocaleDateString('en-US', dateFormatOptions);
+
+  if (!endDay || endDay === day) {
+    return startStr;
+  }
+
+  const end = parseLocalDate(endDay);
+  const endStr = end.toLocaleDateString('en-US', dateFormatOptions);
+  return `${startStr} – ${endStr}`;
 }
 
 export function RushEvents({ events }: { events: RushEvent[] }) {
@@ -47,11 +81,7 @@ export function RushEvents({ events }: { events: RushEvent[] }) {
                   <Box display="flex" alignItems="center" gap={1}>
                     <AccessTimeIcon fontSize="small" />
                     <Typography variant="body2" sx={{ textAlign: 'left' }}>
-                      {new Date(event.Day+'T05:00:00Z').toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        day: 'numeric',
-                        month: 'long',
-                      })}, {event.Time}
+                      {formatEventDate(event.Day, event.EndDay)}, {event.Time}
                     </Typography>
                   </Box>
 
