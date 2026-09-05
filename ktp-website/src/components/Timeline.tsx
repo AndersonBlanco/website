@@ -15,6 +15,9 @@ interface RushEvent {
   Description: string;
 }
 
+/** The timezone events are stored in (Boston / Eastern Time). */
+const SOURCE_TZ = 'America/New_York';
+
 /**
  * Parse a date string (e.g. "2025-09-13") as a local date,
  * avoiding timezone shift issues from UTC parsing.
@@ -46,6 +49,63 @@ function formatEventDate(day: string, endDay?: string): string {
   const end = parseLocalDate(endDay);
   const endStr = end.toLocaleDateString('en-US', dateFormatOptions);
   return `${startStr} – ${endStr}`;
+}
+
+/**
+ * Convert a 24-hour time string stored in Eastern Time to the
+ * user's local timezone, displayed in 12-hour format.
+ *
+ * e.g. "19:00" on "2026-09-13" → "7:00 PM" (Eastern)
+ *      or "4:00 PM" if the user is in Pacific Time.
+ *
+ * If the time string contains a range separator (" - " or " – "),
+ * both sides are converted independently.
+ */
+function formatEventTime(day: string, time: string): string {
+  const separator = time.includes(' – ') ? ' – ' : time.includes(' - ') ? ' - ' : null;
+
+  if (separator) {
+    const [startTime, endTime] = time.split(separator).map(t => t.trim());
+    return `${convertSingleTime(day, startTime)} – ${convertSingleTime(day, endTime)}`;
+  }
+
+  return convertSingleTime(day, time);
+}
+
+/**
+ * Convert a single 24h time (e.g. "19:00") on a given date from
+ * Eastern Time to the browser's local timezone in 12-hour format.
+ */
+function convertSingleTime(day: string, time: string): string {
+  // Match 24h "HH:MM" format
+  const match = time.match(/^(\d{1,2}):(\d{2})$/);
+  if (!match) return time; // not parseable, return as-is
+
+  const hour = parseInt(match[1], 10);
+  const minute = parseInt(match[2], 10);
+
+  // Build an ISO-ish string interpreted in Eastern Time by using
+  // Intl to figure out the UTC offset for the source timezone.
+  // We construct a Date in UTC, then adjust by the Eastern offset.
+  const [year, mon, d] = day.split('-').map(Number);
+
+  // Create a reference date in UTC
+  const utcRef = new Date(Date.UTC(year, mon - 1, d, hour, minute));
+
+  // Get the Eastern Time offset for this date by comparing formatted output
+  const easternStr = utcRef.toLocaleString('en-US', { timeZone: SOURCE_TZ });
+  const easternDate = new Date(easternStr);
+  const offsetMs = utcRef.getTime() - easternDate.getTime();
+
+  // The actual UTC time: Eastern time + offset
+  const actualUtc = new Date(utcRef.getTime() + offsetMs);
+
+  // Format in the user's local timezone
+  return actualUtc.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
 }
 
 export function RushEvents({ events }: { events: RushEvent[] }) {
@@ -81,7 +141,7 @@ export function RushEvents({ events }: { events: RushEvent[] }) {
                   <Box display="flex" alignItems="center" gap={1}>
                     <AccessTimeIcon fontSize="small" />
                     <Typography variant="body2" sx={{ textAlign: 'left' }}>
-                      {formatEventDate(event.Day, event.EndDay)}, {event.Time}
+                      {formatEventDate(event.Day, event.EndDay)}, {formatEventTime(event.Day, event.Time)}
                     </Typography>
                   </Box>
 
