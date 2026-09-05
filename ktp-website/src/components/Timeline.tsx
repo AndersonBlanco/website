@@ -58,15 +58,15 @@ function formatEventDate(day: string, endDay?: string): string {
  * e.g. "19:00" on "2026-09-13" → "7:00 PM" (Eastern)
  *      or "4:00 PM" if the user is in Pacific Time.
  *
- * If the time string contains a range separator (" - " or " – "),
- * both sides are converted independently.
+ * Supports time ranges in any common separator format:
+ * "19:00 - 21:00", "19:00-21:00", "19:00 – 21:00"
  */
 function formatEventTime(day: string, time: string): string {
-  const separator = time.includes(' – ') ? ' – ' : time.includes(' - ') ? ' - ' : null;
+  // Match a time range: two HH:MM groups separated by dash/en-dash with optional spaces
+  const rangeMatch = time.match(/^(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})$/);
 
-  if (separator) {
-    const [startTime, endTime] = time.split(separator).map(t => t.trim());
-    return `${convertSingleTime(day, startTime)} – ${convertSingleTime(day, endTime)}`;
+  if (rangeMatch) {
+    return `${convertSingleTime(day, rangeMatch[1])} – ${convertSingleTime(day, rangeMatch[2])}`;
   }
 
   return convertSingleTime(day, time);
